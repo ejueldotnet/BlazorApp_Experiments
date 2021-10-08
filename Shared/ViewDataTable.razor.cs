@@ -19,8 +19,8 @@ namespace BlazorApp2.Shared
         public string Message { get; set; }
         public string MessageHeader { get; set; }
 
-        string lastSortedColumn = "";
-        bool sort = true;
+        public string lastSortedColumn = "";
+        public bool sortDesc = true;
         public int pages = 1;
         public int currentpage = 1;
 
@@ -54,15 +54,15 @@ namespace BlazorApp2.Shared
             if (lastSortedColumn == columnName)
             {
                 //Update key value
-                sort = !sort;
+                sortDesc = !sortDesc;
             }
             else
             {
                 lastSortedColumn = columnName;
-                sort = true;
+                sortDesc = true;
             }
 
-            if (sort)
+            if (sortDesc)
             {
                 prodView.Sort = $"{columnName} DESC";
             }
@@ -86,6 +86,10 @@ namespace BlazorApp2.Shared
             {
                 //This is the only field type I've found that doesn't naturaly convert from Excel to the db fields
                 row[column] = DateTimeOffset.Parse(e.Value.ToString());
+            }
+            else if (string.IsNullOrEmpty(e.Value.ToString()))
+            {
+                row[column] = DBNull.Value;
             }
             else
             {

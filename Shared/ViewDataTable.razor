@@ -36,7 +36,15 @@
         <tr>
             @foreach (System.Data.DataColumn column in table.Columns)
             {
-                <th><button class="btn btn-primary" @onclick="(() => Sort(column.ColumnName.ToString()))">@column.ColumnName</button></th>
+                <th>
+                <input @bind=@column.ColumnName/>
+                <button class="btn btn-primary" @onclick="(() => Sort(column.ColumnName.ToString()))">
+                    @if (lastSortedColumn == column.ColumnName && sortDesc) {<div>↓</div>}
+                    else if (lastSortedColumn == column.ColumnName) {<div>↑</div>}
+                    else {<div>↕</div>}
+                </button>
+                </th>
+
             }
         </tr>
     </thead>
