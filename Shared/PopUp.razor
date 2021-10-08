@@ -1,0 +1,30 @@
+﻿@if (!string.IsNullOrWhiteSpace(PopupMessage))
+{
+
+<div class="modal fade show d-block" id="exampleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="titleLabel">@PopupMessageHeader</h5>
+                <button type="button" class="close" @onclick="@Close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @PopupMessage
+            </div>
+        </div>
+    </div>
+</div>
+}
+@code{
+    [Parameter]
+    public string PopupMessageHeader { get; set; }
+    [Parameter]
+    public string PopupMessage { get; set; }
+    public void Close()
+    {
+        PopupMessage = "";
+        StateHasChanged();
+    }
+}

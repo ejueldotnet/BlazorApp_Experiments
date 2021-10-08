@@ -17,7 +17,7 @@
         private void IncrementCount()
         {
             currentCount++;
-            myTable.Columns.Add($"{currentCount.ToString()}");
+            myTable.Columns.Add($"{currentCount.ToString()}",System.Type.GetType("System.Int32") );
             var nextRow = myTable.NewRow();
             foreach (System.Data.DataColumn column in myTable.Columns)
             {

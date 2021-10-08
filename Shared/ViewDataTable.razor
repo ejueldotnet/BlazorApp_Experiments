@@ -4,6 +4,8 @@
 @inherits ViewDataTable_Code
 <!--Put code outside of razor file (see "ViewDataTable.razor.cs")-->
 
+<PopUp PopupMessageHeader=@MessageHeader PopupMessage=@Message />
+
 <h2>
     @if (currentpage > 1)
     {
@@ -46,7 +48,9 @@
             <tr>
                 @foreach (System.Data.DataColumn column in table.Columns)
                 {
-                    <td>@row[column.ColumnName]</td>
+                    <td><Input value=@row[column] @onchange="@((ChangeEventArgs args) => SetDataTableValueAsync(row,column, args))" /></td>
+                    <!--There is a bug, if user enters the wrong value, will still display the wrong value-->
+                    <!-- "((ChangeEventArgs args) =>  row[column] = args.Value.ToString()-->
                 }
             </tr>
             @if (row == table.Rows[table.Rows.Count - 1]) break;
@@ -55,4 +59,8 @@
 </table>
 
 <h3>Page: @currentpage of @pages</h3>
+
+@code{
+    string value = "";
+}
 
