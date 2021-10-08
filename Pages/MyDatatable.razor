@@ -1,0 +1,28 @@
+﻿@page "/myDatatable"
+@using System.Data
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<ViewDataTable table=myTable />
+
+
+    @code {
+        private int currentCount = 0;
+        Random random = new Random();
+        private DataTable myTable = new DataTable();
+
+        private void IncrementCount()
+        {
+            currentCount++;
+            myTable.Columns.Add($"{currentCount.ToString()}");
+            var nextRow = myTable.NewRow();
+            foreach (System.Data.DataColumn column in myTable.Columns)
+            {
+                nextRow[column] = random.Next(1,1000);
+            }
+            myTable.Rows.Add(nextRow);
+        }
+    }

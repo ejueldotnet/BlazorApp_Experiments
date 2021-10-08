@@ -1,0 +1,60 @@
+﻿@page "/counter"
+@using System.Data
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+<table class="table">
+    <thead>
+        <tr>
+            @foreach (System.Data.DataColumn column in myTable.Columns)
+            {
+                //<th>@column.ColumnName</th>
+                <th><button class="btn btn-primary" @onclick="(() => Sort(column.ColumnName.ToString()))">a @column.ColumnName</button></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (System.Data.DataRow row in myTable.Rows)
+        {
+            <tr>
+                @foreach (System.Data.DataColumn column in myTable.Columns)
+                {
+                    <td>@row[column.ColumnName]</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private int currentCount = 0;
+    private DataTable myTable = new DataTable();
+    Random random = new Random();
+
+    private void IncrementCount()
+    {
+        currentCount++;
+        myTable.Columns.Add(currentCount.ToString());
+        var nextRow = myTable.NewRow();
+        foreach (System.Data.DataColumn column in myTable.Columns)
+        {
+            nextRow[column] = random.Next(1, 100).ToString();
+        }
+        myTable.Rows.Add(nextRow);
+    }
+}
+
+@functions{
+    private void Sort(string columnName)
+    {
+        System.Data.DataView prodView = myTable.DefaultView;
+        prodView.Sort = $"{columnName} desc";
+        myTable = prodView.ToTable();
+
+    }
+
+}

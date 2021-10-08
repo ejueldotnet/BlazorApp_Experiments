@@ -1,0 +1,61 @@
+﻿<tbody>
+    <table class="table">
+        <thead>
+            <tr>
+                @foreach (System.Data.DataColumn column in table.Columns)
+                {
+                    //<th>@column.ColumnName</th>
+                    <th><button class="btn btn-primary" @onclick="(() => Sort(column.ColumnName.ToString()))">@column.ColumnName</button></th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (System.Data.DataRow row in table.Rows)
+            {
+                <tr>
+                    @foreach (System.Data.DataColumn column in table.Columns)
+                    {
+                        <td>@row[column.ColumnName]</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</tbody>
+
+@code {
+
+    [Parameter]
+    public System.Data.DataTable table { get; set; }
+}
+@functions{
+    string lastSortedColumn = "";
+    bool sort = true;
+    private void Sort(string columnName)
+    {
+        System.Data.DataView prodView = table.DefaultView;
+
+        if (lastSortedColumn == columnName)
+        {
+            //Update key value
+            sort = !sort;
+        }
+        else
+        {
+            lastSortedColumn = columnName;
+            sort = true;
+        }
+
+        if (sort)
+        {
+            prodView.Sort = $"{columnName} DESC";
+        }
+        else
+        {
+            prodView.Sort = $"{columnName} ASC";
+        }
+        table = prodView.ToTable();
+
+    }
+
+}
