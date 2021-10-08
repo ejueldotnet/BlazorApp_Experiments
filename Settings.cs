@@ -12,6 +12,7 @@
                 else _maxRowsToDisplay = value;
             }
         }
+        public string text { get; set; }
 
         public Settings()
         {

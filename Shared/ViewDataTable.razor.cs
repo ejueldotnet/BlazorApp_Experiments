@@ -20,8 +20,9 @@ namespace BlazorApp2.Shared
         public int pages = 1;
         public int currentpage = 1;
 
-        public string PreviousPage_Name = "Previous Page";
-        public string NextPage_Name = "Next Page";
+        public static string PreviousPage_Name = "Previous Page";
+        public static string NextPage_Name = "Next Page";
+        public string TestTextInput = "";
 
         public void PreviousPage()
         {

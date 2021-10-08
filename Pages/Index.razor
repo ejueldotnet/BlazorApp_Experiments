@@ -5,3 +5,26 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+
+<p>Text change on  <input @bind="settings.text" placeholder="Demo" /> </p>
+<p>Text change on Input <input @bind="settings.text" @bind:event="oninput" placeholder="Demo" /> </p>
+
+<EditForm Model="@settings" OnValidSubmit="@FormSubmitted">
+    <h5>
+        text:
+        <InputText @bind-Value="settings.text" />
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </h5>
+</EditForm>
+<p>Text: @settings.text</p>
+
+@code  {
+    Settings settings = new Settings();
+
+    public void FormSubmitted()
+    {
+        Console.WriteLine("Form submitted");
+        // Post data to the server, etc
+    }
+}
